@@ -58,4 +58,5 @@ profile*
 *flamegraph*
 
 database.db
+
 package-lock.json
