@@ -19,6 +19,4 @@ const postsService = (fastify: FastifyInstance) => {
     };
 };
 
-
-
 export { postsService };

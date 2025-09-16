@@ -10,6 +10,7 @@ const createTransactionHelpers = (db: Database) => {
         createPost: db.prepare(
             "INSERT INTO posts (img_url, caption) VALUES (@img_url, @caption) RETURNING *",
         ),
+        getAllReels: db.prepare("SELECT * FROM reels"),
     };
 
     const posts = {
@@ -24,8 +25,15 @@ const createTransactionHelpers = (db: Database) => {
         },
     };
 
+    const reels = {
+        getAll: () => {
+            return statements.getAllReels.all();
+        },
+    };
+
     return {
         posts,
+        reels,
     };
 };
 

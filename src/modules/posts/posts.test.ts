@@ -1,6 +1,5 @@
 import Fastify from "fastify";
 import { postsRoutes } from "./posts.routes";
-import { postsSchema } from "src/modules/posts/posts.types"
 
 describe("POST /posts", () => {
     it("should create a new post and return it with a 201 status code", async () => {
@@ -18,6 +17,9 @@ describe("POST /posts", () => {
                 getById: jest.fn(),
                 getAll: jest.fn(),
                 create: jest.fn().mockReturnValue(createdPost),
+            },
+            reels: {
+                getAll: jest.fn(),
             },
         });
 
@@ -47,6 +49,9 @@ describe("POST /posts", () => {
                 getById: jest.fn(),
                 getAll: jest.fn().mockReturnValue(postsSchema),
                 create: jest.fn(),
+            },
+            reels: {
+                getAll: jest.fn(),
             },
         });
 
