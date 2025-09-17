@@ -1,25 +1,22 @@
 import { z } from "zod";
 
-const createReelDtoSchema = z.object({
-    video_url: z.string().url(),
-    thumbnail_url: z.string().url(),
-    views: z.number(),
-    caption: z.string().nullable().optional(), // Caption can be a string, null, or undefined
+const createTaggedDtoSchema = z.object({
+    img_url: z.string().url(),
+    caption: z.string().nullable().optional(),
 });
 
-const reelSchema = z.object({
+const taggedSchema = z.object({
     id: z.number(),
-    video_url: z.string().url(),
-    thumbnail_url: z.string().url(),
-    views: z.number(),
+    img_url: z.string().url(),
     caption: z.string().nullable(),
-    created_at: z.string(), // SQLite returns DATETIME as a string by default
+    tagged_by_user: z.string().nonempty(),
+    created_at: z.string(),
 });
 
-const reelsSchema = z.array(reelSchema);
+const taggedsSchema = z.array(taggedSchema);
 
 
-type CreateReelDto = z.infer<typeof createReelDtoSchema>;
-type Reel = z.infer<typeof reelsSchema>;
+type CreateTaggedDto = z.infer<typeof createTaggedDtoSchema>;
+type Tagged = z.infer<typeof taggedSchema>;
 
-export { createReelDtoSchema, reelSchema, reelsSchema, CreateReelDto, Reel };
+export { createTaggedDtoSchema, taggedSchema, taggedsSchema, CreateTaggedDto, Tagged };

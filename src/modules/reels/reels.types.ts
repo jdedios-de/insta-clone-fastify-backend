@@ -20,6 +20,6 @@ const reelsSchema = z.array(reelSchema);
 
 
 type CreateReelDto = z.infer<typeof createReelDtoSchema>;
-type Reel = z.infer<typeof reelsSchema>;
+type Reel = z.infer<typeof reelSchema>;
 
 export { createReelDtoSchema, reelSchema, reelsSchema, CreateReelDto, Reel };

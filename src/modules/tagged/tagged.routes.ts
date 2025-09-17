@@ -1,14 +1,14 @@
-import type { FastifyInstance, FastifyPluginAsync } from "fastify";
-import { reelsService } from "./reels.service";
+    import type { FastifyInstance, FastifyPluginAsync } from "fastify";
+import { taggedService } from "./tagged.service";
 
-const reelsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-    const service = reelsService(fastify);
+const taggedRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
+    const service = taggedService(fastify);
 
-    fastify.get("/reels/grid", async (request, reply) => {
+    fastify.get("/tagged/grid", async (request, reply) => {
         const getAll = await service.getAll()
 
         return reply.code(200).send(getAll);
     });
 };
 
-export { reelsRoutes };
+export { taggedRoutes };

@@ -2,6 +2,8 @@ import Fastify from "fastify";
 import { databasePlugin } from "./core/database/database.plugin";
 import { postsRoutes } from "./modules/posts/posts.routes";
 import { reelsRoutes } from "src/modules/reels/reels.routes"
+import { taggedRoutes } from "src/modules/tagged/tagged.routes"
+import { highlightsRoutes } from "src/modules/highlights/highlights.routes"
 
 const fastify = Fastify({
     logger: true,
@@ -14,6 +16,14 @@ fastify.register(postsRoutes);
 
 // Register our new reels routes
 fastify.register(reelsRoutes);
+
+// Register our new tagged routes
+fastify.register(taggedRoutes);
+
+// Register our new highlights routes
+fastify.register(highlightsRoutes);
+
+
 
 // Declare a default route
 fastify.get("/", function (request, reply) {

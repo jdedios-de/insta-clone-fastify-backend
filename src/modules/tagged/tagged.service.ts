@@ -1,15 +1,15 @@
 import type { FastifyInstance } from "fastify";
-import { CreateReelDto } from "./reels.types";
 
-const reelsService = (fastify: FastifyInstance) => {
+const taggedService = (fastify: FastifyInstance) => {
     return {
         getAll: async () => {
-            fastify.log.info(`Retrieving all reels`);
+            fastify.log.info(`Retrieving all tagged`);
 
-            const posts = fastify.transactions.reels.getAll();
-            return posts;
+            const tagged = fastify.transactions.tagged.getAll();
+
+            return tagged;
         },
     };
 };
 
-export { reelsService };
+export { taggedService };

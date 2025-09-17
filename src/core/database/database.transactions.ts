@@ -8,10 +8,15 @@ const createTransactionHelpers = (db: Database) => {
         getPostById: db.prepare("SELECT * FROM posts WHERE id = ?"),
         getAllPosts: db.prepare("SELECT * FROM posts"),
         createPost: db.prepare(
-            "INSERT INTO posts (img_url, caption) VALUES (@img_url, @caption) RETURNING *",
+            "INSERT INTO posts (img_url, caption) VALUES (@img_url, @caption) RETURNING *"
         ),
         getAllReels: db.prepare("SELECT * FROM reels"),
-    };
+        getAllTaggeds: db.prepare(
+            "SELECT posts.*, tagged.tagged_by_user FROM posts INNER JOIN tagged ON posts.id = tagged.post_id"
+        ),
+        getHighlightsById: db.prepare("SELECT * FROM highlights WHERE id = ?"),
+        getAllHighlights: db.prepare("SELECT * FROM highlights"),
+    }
 
     const posts = {
         getById: (id: number) => {
@@ -31,9 +36,26 @@ const createTransactionHelpers = (db: Database) => {
         },
     };
 
+    const tagged = {
+        getAll: () => {
+            return statements.getAllTaggeds.all();
+        },
+    };
+
+    const highlights = {
+        getById: (id: number) => {
+            return statements.getHighlightsById.get(id);
+        },
+        getAll: () => {
+            return statements.getAllHighlights.all();
+        },
+    };
+
     return {
         posts,
         reels,
+        tagged,
+        highlights
     };
 };
 

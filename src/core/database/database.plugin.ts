@@ -39,6 +39,26 @@ async function databasePluginHelper(fastify: FastifyInstance) {
   );
 `);
 
+    db.exec(`
+  CREATE TABLE IF NOT EXISTS tagged (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id INTEGER NOT NULL,
+    tagged_by_user TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+  );
+`);
+
+    // Create a simple table for testing if it doesn't exist
+    db.exec(`
+  CREATE TABLE IF NOT EXISTS highlights (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cover_image_url TEXT NOT NULL,
+    title TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+`);
+
     const transactions = createTransactionHelpers(db);
 
     fastify.decorate("db", db);

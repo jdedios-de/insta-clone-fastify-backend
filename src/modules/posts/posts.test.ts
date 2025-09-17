@@ -21,6 +21,13 @@ describe("POST /posts", () => {
             reels: {
                 getAll: jest.fn(),
             },
+            tagged: {
+                getAll: jest.fn(),
+            },
+            highlights: {
+                getById: jest.fn(),
+                getAll: jest.fn(),
+            },
         });
 
         app.register(postsRoutes);
@@ -51,6 +58,13 @@ describe("POST /posts", () => {
                 create: jest.fn(),
             },
             reels: {
+                getAll: jest.fn(),
+            },
+            tagged: {
+                getAll: jest.fn(),
+            },
+            highlights: {
+                getById: jest.fn(),
                 getAll: jest.fn(),
             },
         });

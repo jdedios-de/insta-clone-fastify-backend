@@ -36,6 +36,13 @@ describe("GET /reels/grid", () => {
             reels: {
                 getAll: jest.fn().mockReturnValue(mockReels),
             },
+            tagged: {
+                getAll: jest.fn(),
+            },
+            highlights: {
+                getById: jest.fn(),
+                getAll: jest.fn(),
+            },
         });
 
         app.register(reelsRoutes);
