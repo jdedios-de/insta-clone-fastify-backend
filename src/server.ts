@@ -1,4 +1,6 @@
 import Fastify from "fastify";
+import multipart from "@fastify/multipart";
+
 import { databasePlugin } from "./core/database/database.plugin";
 import { postsRoutes } from "./modules/posts/posts.routes";
 import { reelsRoutes } from "src/modules/reels/reels.routes"
@@ -8,6 +10,9 @@ import { highlightsRoutes } from "src/modules/highlights/highlights.routes"
 const fastify = Fastify({
     logger: true,
 });
+
+// Register multipart plugin
+fastify.register(multipart);
 
 // Register our database plugin
 fastify.register(databasePlugin);
@@ -22,8 +27,6 @@ fastify.register(taggedRoutes);
 
 // Register our new highlights routes
 fastify.register(highlightsRoutes);
-
-
 
 // Declare a default route
 fastify.get("/", function (request, reply) {
