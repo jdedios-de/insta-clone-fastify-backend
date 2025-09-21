@@ -1,5 +1,7 @@
 import path from "path";
-import fs from "fs/promises";
+import fspromise from "fs/promises";
+import fs from "fs";
+
 import { randomUUID } from "crypto";
 
 export const fileStorageService = {
@@ -8,13 +10,14 @@ export const fileStorageService = {
         originalFilename: string,
     ): Promise<string> {
         const uploadDir = path.join(process.cwd(), "tmp", "uploads");
-        await fs.mkdir(uploadDir, { recursive: true });
+
+        await fs.promises.mkdir(uploadDir, { recursive: true });
 
         const fileExtension = path.extname(originalFilename);
         const uniqueFilename = `${randomUUID()}${fileExtension}`;
         const filePath = path.join(uploadDir, uniqueFilename);
 
-        await fs.writeFile(filePath, fileBuffer);
+        await fspromise.writeFile(filePath, fileBuffer);
 
         // Return the public URL path
         return `/uploads/${uniqueFilename}`;
