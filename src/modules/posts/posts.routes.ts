@@ -1,6 +1,5 @@
 import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 import { postsService } from "./posts.service";
-import { CreatePostDto } from "./posts.types";
 import { z } from "zod"
 
 

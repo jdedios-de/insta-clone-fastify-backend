@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
-import { fileStorageService } from "src/common/file-storage.service"
-import { CreatePostDto } from "src/modules/posts/posts.types"
+import { fileStorageService } from "../../common/file-storage.service"
+import { CreatePostDto } from "../../modules/posts/posts.types"
 
 type CreatePostData = {
     img_url: string; // This will now come from our storage service
