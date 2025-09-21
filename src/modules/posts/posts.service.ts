@@ -33,8 +33,6 @@ const postsService = (fastify: FastifyInstance) => {
                 caption: data.caption,
             };
 
-            console.log("++++++++++++++++++++++++");
-            console.log(postParameter);
             const post = fastify.transactions.posts.create(postParameter);
 
             return post;

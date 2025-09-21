@@ -1,49 +1,45 @@
 import Fastify from "fastify";
 import { postsRoutes } from "./posts.routes";
-import FormData from "form-data";
-import { fileStorageService } from "src/common/file-storage.service"
-import path from "path"
-import fs from "fs";
 
 describe("POST /posts", () => {
     it("should create a new post and return it with a 201 status code", async () => {
         const app = Fastify();
-        const form = new FormData();
-        form.append("caption", "Elephant Rider");
 
-        const uploadDir = path.join(process.cwd(), "public", "uploads");
-        const filePath = path.join(uploadDir, "elephant.jpg");
+        const newPostPayload = {
+            img_url: "http://example.com/new-image.jpg",
+            caption: "A brand new post from our test!",
+        };
 
-        // Ensure the file exists before running the test
-        if (!fs.existsSync(filePath)) {
-            throw new Error(`File not found at ${filePath}`);
-        }
+        const createdPost = { ...newPostPayload, id: 1 };
 
-        form.append("file", fs.createReadStream(filePath), {
-            filename: "elephant.jpg",
-            contentType: "image/jpeg", // Match the actual file type
+        app.decorate("transactions", {
+            posts: {
+                getById: jest.fn(),
+                getAll: jest.fn(),
+                create: jest.fn().mockReturnValue(createdPost),
+            },
+            reels: {
+                getAll: jest.fn(),
+            },
+            tagged: {
+                getAll: jest.fn(),
+            },
+            highlights: {
+                getById: jest.fn(),
+                getAll: jest.fn(),
+            },
         });
 
-        // Register multipart plugin
-        await app.register(require("@fastify/multipart"));
-
-        // Register your routes
         app.register(postsRoutes);
 
         const response = await app.inject({
             method: "POST",
             url: "/posts",
-            payload: form,
-            headers: form.getHeaders(),
+            payload: newPostPayload,
         });
 
-        console.log(response);
-
-        expect(response.statusCode).toBe(201); // Expect 201 for resource creation
-
-        const body = response.json();
-        expect(body.uploaded.file).toBeDefined();
-        expect(body.uploaded.fileType).toBe("image/jpeg"); // Match the uploaded file type
+        expect(response.statusCode).toBe(201);
+        expect(JSON.parse(response.payload)).toEqual(createdPost);
     });
 
     it("should get all posts and return them with a 200 status code", async () => {

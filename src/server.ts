@@ -1,5 +1,7 @@
 import Fastify from "fastify";
+import fastifyStatic from "@fastify/static";
 import multipart from "@fastify/multipart";
+import path from "path";
 
 import { databasePlugin } from "./core/database/database.plugin";
 import { postsRoutes } from "./modules/posts/posts.routes";
@@ -27,6 +29,12 @@ fastify.register(taggedRoutes);
 
 // Register our new highlights routes
 fastify.register(highlightsRoutes);
+
+fastify.register(fastifyStatic, {
+    root: path.join(process.cwd(), "public", "uploads"),
+    prefix: "/uploads/",
+    index: false,
+});
 
 // Declare a default route
 fastify.get("/", function (request, reply) {
