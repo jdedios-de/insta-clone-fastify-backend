@@ -7,7 +7,7 @@ export const fileStorageService = {
         fileBuffer: Buffer,
         originalFilename: string,
     ): Promise<string> {
-        const uploadDir = path.join(process.cwd(), "tmp", "public", "uploads");
+        const uploadDir = path.join(process.cwd(), "tmp", "uploads");
         await fs.mkdir(uploadDir, { recursive: true });
 
         const fileExtension = path.extname(originalFilename);
