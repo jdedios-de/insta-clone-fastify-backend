@@ -1,25 +1,24 @@
 import path from "path";
-import fspromise from "fs/promises";
-import fs from "fs";
-
+import fs from "fs/promises";
 import { randomUUID } from "crypto";
 
 export const fileStorageService = {
-    async saveImage(
-        fileBuffer: Buffer,
-        originalFilename: string,
-    ): Promise<string> {
-        const uploadDir = path.join(process.cwd(), "tmp", "uploads");
+    async saveImage(fileBuffer: Buffer, originalFilename: string): Promise<string> {
+        // Use /tmp for writable storage in Vercel
+        const uploadDir = path.join("/tmp", "uploads");
 
-        await fs.promises.mkdir(uploadDir, { recursive: true });
+        // Create the directory if it doesn't exist
+        await fs.mkdir(uploadDir, { recursive: true });
 
         const fileExtension = path.extname(originalFilename);
         const uniqueFilename = `${randomUUID()}${fileExtension}`;
         const filePath = path.join(uploadDir, uniqueFilename);
 
-        await fspromise.writeFile(filePath, fileBuffer);
+        // Save the file
+        await fs.writeFile(filePath, fileBuffer);
 
-        // Return the public URL path
-        return `/uploads/${uniqueFilename}`;
+        // Return the temporary file path
+        // ⚠️ Note: This path is ephemeral on Vercel and will disappear after execution
+        return filePath;
     },
 };
