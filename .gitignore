@@ -57,6 +57,6 @@ profile*
 *clinic*
 *flamegraph*
 
-database.db
+tmp/database.db
 
 package-lock.json
